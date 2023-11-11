@@ -18,4 +18,13 @@ public abstract class MenuValidator {
         }
         return quantity;
     }
+
+    public static Menu validateMenuExist(String menuName) {
+        // 파라미터로 들어온 메뉴이름을 가진 메뉴가 존재하는지 검사후 해당 Menu 객체를 반환
+        List<Menu> menuListForValidation = MenuList.getMenuList();
+        return menuListForValidation.stream()
+                .filter(menu -> menu.isContainName(menuName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 메뉴는 존재하지 않습니다."));
+    }
 }
