@@ -1,17 +1,26 @@
 package order;
 
 import menu.Menu;
+import menu.MenuCategory;
 
 public class OrderInfo {
     private Menu menu;
     private int quantity;
 
-    private OrderInfo(Menu menu, int quantity) {
+    public OrderInfo(Menu menu, int quantity) {
         this.menu = menu;
         this.quantity = quantity;
     }
 
-    public static OrderInfo createOrderInfo(Menu menu, int quantity) {
-        return new OrderInfo(menu, quantity);
+    public MenuCategory getMenuCategory() {
+        return menu.getMenuCategory();
+    }
+
+    public int getMenuPrice() {
+        return menu.getMenuPrice();
+    }
+
+    public int getQuantity() {
+        return this.quantity;
     }
 }
