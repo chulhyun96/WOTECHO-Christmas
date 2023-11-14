@@ -22,9 +22,8 @@ public abstract class BadgeGiftEvent {
     }
 
     private static int getAllPrice(List<OrderInfo> orderInfoList) {
-        int allPrice = orderInfoList.stream()
+        return orderInfoList.stream()
                 .mapToInt(OrderInfo::getAllPrice)
                 .sum();
-        return allPrice;
     }
 }
