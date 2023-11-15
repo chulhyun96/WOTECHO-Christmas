@@ -5,16 +5,13 @@ import java.util.List;
 import java.util.Set;
 import menu.Menu;
 import menu.MenuList;
-import order.OrderInfo;
 
 public abstract class MenuValidator {
     private static final int INVALID_QUANTITY = 0;
-    private static final int VALID_ORDER_FORMAT_RANGE = 2;
+    private static final int VALID_MENU_COUNT_RANGE = 2;
     private static final String ERROR_INPUT_QUANTITY_MESSAGE = "[ERROR] 주문 수량은 1개 이상이여야 합니다.";
     private static final String ERROR_CONVERT_TO_INT_MESSAGE = "[ERROR] 수량은 숫자로만 입력해주세요";
-    private static final String ERROR_MENU_EXIST_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
-    private static final String ERROR_INPUT_FORMAT_MESSAGE = "[ERROR] 유효하지 않은 주문 입니다. 다시 입력해 주세요.";
-    private static final String ERROR_DUPLICATION_MESSAGE = "[ERROR] 중복 메뉴를 입력하셨습니다. 다시 입력해 주세요.";
+    private static final String ERROR_MENU_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
     private static final Set<String> menuNames = new HashSet<>();
 
     public static void validateQuantity(int quantity) {
@@ -32,8 +29,8 @@ public abstract class MenuValidator {
     }
 
     public static void validateOrderFormat(String[] parts) {
-        if (parts.length != VALID_ORDER_FORMAT_RANGE || !parts[1].trim().matches("\\d+")) {
-            throw new IllegalArgumentException(ERROR_INPUT_FORMAT_MESSAGE);
+        if (parts.length != VALID_MENU_COUNT_RANGE || !parts[1].trim().matches("\\d+")) {
+            throw new IllegalArgumentException(ERROR_MENU_MESSAGE);
         }
     }
     public static Menu validateMenuExist(String menuName) {
@@ -42,16 +39,17 @@ public abstract class MenuValidator {
         return menuListForValidation.stream()
                 .filter(menu -> menu.isContainName(menuName))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ERROR_MENU_EXIST_MESSAGE));
+                .orElseThrow(() -> new IllegalArgumentException(ERROR_MENU_MESSAGE));
     }
     public static void validateMenuDuplication(String menuName) {
         if (menuNames.contains(menuName)) {
             // 중복된 메뉴 이름을 발견한 경우 에러를 발생시킵니다.
-            throw new IllegalArgumentException(ERROR_DUPLICATION_MESSAGE);
+            throw new IllegalArgumentException(ERROR_MENU_MESSAGE);
         }
         menuNames.add(menuName); // 메뉴 이름을 Set에 추가합니다.
     }
     public static void clearMenuNamesForDuplication() {
         menuNames.clear();
     }
+
 }

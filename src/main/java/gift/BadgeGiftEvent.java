@@ -12,7 +12,7 @@ import order.OrderInfo;
 
 public abstract class BadgeGiftEvent {
 
-    public String checkGiftBadge(List<OrderInfo>orderInfoList, LocalDate localDate) {
+    public static String checkGiftBadge(List<OrderInfo>orderInfoList, LocalDate localDate) {
 
         int eventDiscountAcceptResult = getEventAllPrice(orderInfoList, localDate);
         

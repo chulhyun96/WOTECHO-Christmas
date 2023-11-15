@@ -1,7 +1,6 @@
 package discount;
 
 import static constants.SystemConstants.NONE_DISCOUNT;
-import static date.Event.SPECIAL_DISCOUNT;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -13,13 +12,11 @@ public abstract class SpecialDiscount {
 
     private static final int SPECIAL_DISCOUNT_PRICE = 1000;
     private static final int EVENT_ACCEPT_DATE = 25;
-    private static final String SPECIAL_PRINT_FORMAT = SPECIAL_DISCOUNT.getDisplayName() + ": -%,d원";
 
-    public static String discountSpecial(List<OrderInfo> orderInfoList, LocalDate userInputDate) {
-
-        if (EventCaution.checkIfEventAcceptPrice(orderInfoList)) {
+    public static int discountSpecial(List<OrderInfo> orderInfoList, LocalDate userInputDate) {
+        if (EventCaution.checkIfEventAccept(orderInfoList)) {
             if (isSpecialDay(userInputDate)) {
-                return String.format(SPECIAL_PRINT_FORMAT, SPECIAL_DISCOUNT_PRICE);
+                return SPECIAL_DISCOUNT_PRICE;
             }
         }
         return NONE_DISCOUNT;

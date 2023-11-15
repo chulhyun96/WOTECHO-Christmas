@@ -1,7 +1,7 @@
 package gift;
 
 public enum Badge {
-    STAR("?", 5000), TREE("??", 10000), SANTA("??", 20000);
+    STAR("별", 5000), TREE("트리", 10000), SANTA("산타", 20000);
     private String badgeName;
     private int badgeValue;
 

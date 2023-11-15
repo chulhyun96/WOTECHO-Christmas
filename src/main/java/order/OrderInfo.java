@@ -23,4 +23,10 @@ public class OrderInfo {
     public int getQuantity() {
         return this.quantity;
     }
+    public String getMenuName() {
+        return menu.getMenuName();
+    }
+    public int getAllPrice() {
+        return getMenuPrice() * getQuantity();
+    }
 }
