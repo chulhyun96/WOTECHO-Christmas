@@ -2,7 +2,6 @@ package discount;
 
 
 import static constants.SystemConstants.NONE_DISCOUNT;
-import static date.Event.WEEKDAY_DISCOUNT;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -11,16 +10,14 @@ import menu.MenuCategory;
 import order.OrderInfo;
 import validate.EventCaution;
 
-public abstract class WeekDayDiscount {
+public abstract class WeekdayDiscount {
     private static final int WEEKDAY_DISCOUNT_PRICE = 2023;
-    private static final String WEEKDAY_PRINT_FORMAT = WEEKDAY_DISCOUNT.getDisplayName()+": -%,d원";
 
-    public static String discountWeekDay(List<OrderInfo> orderInfoList, LocalDate userInputDate) {
-        if (EventCaution.checkIfEventAcceptPrice(orderInfoList)) {
+    public static int discountWeekDay(List<OrderInfo> orderInfoList, LocalDate userInputDate) {
+        if (EventCaution.checkIfEventAccept(orderInfoList)) {
             if (isWeekday(userInputDate)) {
                 int dessertCount = getDessertCount(orderInfoList);
-                int discount = dessertCount * WEEKDAY_DISCOUNT_PRICE;
-                return String.format(WEEKDAY_PRINT_FORMAT, discount);
+                return dessertCount * WEEKDAY_DISCOUNT_PRICE;
             }
         }
         return NONE_DISCOUNT;
