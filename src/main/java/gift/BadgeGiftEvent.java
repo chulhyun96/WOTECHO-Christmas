@@ -12,7 +12,6 @@ import order.OrderInfo;
 
 public abstract class BadgeGiftEvent {
 
-    // ?? ???? ?? ?? ? ??? ???? ? ?
     public String checkGiftBadge(List<OrderInfo>orderInfoList, LocalDate localDate) {
 
         int eventDiscountAcceptResult = getEventAllPrice(orderInfoList, localDate);
@@ -30,27 +29,23 @@ public abstract class BadgeGiftEvent {
     }
 
     private static int getEventAllPrice(List<OrderInfo> orderInfoList, LocalDate localDate) {
-       // ??? ?? ??? ??
-
         int discountAcceptPrice = getDiscountResult(orderInfoList, localDate);
-
         int orderInfoAllPrice = getAllPrice(orderInfoList);
-
         return orderInfoAllPrice - discountAcceptPrice;
     }
 
-    private static int getAllPrice(List<OrderInfo> orderInfoList) {
-        return orderInfoList.stream()
-                .mapToInt(OrderInfo::getAllPrice)
-                .sum();
-    }
-
-    private static int getDiscountResult(List<OrderInfo> orderInfoList, LocalDate localDate) {
+    public static int getDiscountResult(List<OrderInfo> orderInfoList, LocalDate localDate) {
         int christmasDiscountResult = ChristmasDisCount.christmasDiscount(orderInfoList, localDate);
         int specialDiscountResult = SpecialDiscount.discountSpecial(orderInfoList, localDate);
         int weekdayDiscountResult = WeekdayDiscount.discountWeekDay(orderInfoList, localDate);
         int weekendDiscountResult = WeekendDiscount.discountWeekend(orderInfoList, localDate);
 
         return christmasDiscountResult + specialDiscountResult + weekdayDiscountResult + weekendDiscountResult;
+    }
+
+    private static int getAllPrice(List<OrderInfo> orderInfoList) {
+        return orderInfoList.stream()
+                .mapToInt(OrderInfo::getAllPrice)
+                .sum();
     }
 }
