@@ -12,21 +12,18 @@ import validate.EventCaution;
 public abstract class ChristmasDisCount {
     private static final int DISCOUNT_DEFAULT_PRICE = 1000;
     private static final int DISCOUNT_IMPEDING_ON_DATE = 100;
-    private static final String CHRISTMAS_DISCOUNT_MESSAGE = CHRISTMAS_DDAY.getDisplayName() + ": -%,d원";
 
 
-    public static String christmasDiscount(List<OrderInfo> orderInfoList, LocalDate inputDate) {
-        if (EventCaution.checkIfEventAcceptPrice(orderInfoList)) {
+    public static int christmasDiscount(List<OrderInfo> orderInfoList, LocalDate inputDate) {
+        if (EventCaution.checkIfEventAccept(orderInfoList)) {
             if (!inputDate.isBefore(CHRISTMAS_DDAY.getStartDate()) &&
                     !inputDate.isAfter(CHRISTMAS_DDAY.getEndDate())) {
 
-                int discount = getDiscount(inputDate);
-                return String.format(CHRISTMAS_DISCOUNT_MESSAGE, discount);
+                return getDiscount(inputDate);
             }
         }
         return NONE_DISCOUNT;
     }
-
 
     private static int getDiscount(LocalDate inputDate) {
         long date = ChronoUnit.DAYS.between(CHRISTMAS_DDAY.getStartDate(), inputDate);
