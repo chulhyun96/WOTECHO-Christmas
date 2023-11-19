@@ -25,7 +25,7 @@ public abstract class ChampagneGiftEvent {
         return "없음";
     }
 
-    private static boolean replyIfGetChampagneGift(List<OrderInfo> oderInfoList) {
+    public static boolean replyIfGetChampagneGift(List<OrderInfo> oderInfoList) {
         int orderInfoAllPrice = oderInfoList.stream()
                 .mapToInt(OrderInfo::getAllPrice)
                 .sum();

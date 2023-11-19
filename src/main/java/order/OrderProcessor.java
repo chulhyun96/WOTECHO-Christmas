@@ -39,7 +39,6 @@ public abstract class OrderProcessor {
                     inputMenuNames.add(parts[0].trim());
                 }
                 EventCaution.checkIfAllBeverages(inputMenuNames);
-                EventCaution.checkMenuCounts(orderInfoList);
                 isSuccess = true;
                 // 에외 모두 통과시 중복검사 set 초기화
                 MenuValidator.clearMenuNamesForDuplication();

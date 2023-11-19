@@ -14,16 +14,18 @@ public abstract class DateReserve {
         String reserveDay = InputView.readDate();
         LocalDate date = null;
 
+
         while (date == null) {
             try {
                 // int  parsing
-                int parseIntDay = DateValidator.validateDateInput(reserveDay);
                 // 1~31
+                int parseIntDay = DateValidator.validateDateInput(reserveDay);
                 DateValidator.validateDateRange(parseIntDay);
                 date = LocalDate.of(YEAR, MONTH, parseIntDay);
 
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
+                reserveDay = InputView.readDate();
             }
         }
         return date;

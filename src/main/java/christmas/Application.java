@@ -28,12 +28,13 @@ public class Application {
 
         // 날짜 입력받고 Date 객체 생성.
         LocalDate reservedDate = DateReserve.reserveDate();
+        int day = reservedDate.getDayOfMonth();
 
         // 메뉴 입력 받기
         List<String> userOrderInfoString = InputView.readMenu();
 
         // 날짜에 맞게 이벤트 혜텍 미리보기 출력
-        OutputView.printWelcomeMessage(reservedDate);
+        OutputView.printWelcomeMessage(day);
 
         // 메뉴 객체 생성 및 주문 정보 객체 생성
         List<OrderInfo> orderInfoList = OrderProcessor.orderInfoList(userOrderInfoString);

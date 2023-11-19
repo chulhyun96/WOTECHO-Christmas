@@ -17,10 +17,10 @@ import order.OrderInfo;
 import outputview.PriceFormatter;
 
 public abstract class BenefitDetailsPrinter {
-    private static final String CHRISTMAS_DISCOUNT_MESSAGE = CHRISTMAS_DDAY.getDisplayName();
-    private static final String SPECIAL_PRINT_FORMAT = SPECIAL_DISCOUNT.getDisplayName();
-    private static final String WEEKDAY_PRINT_FORMAT = WEEKDAY_DISCOUNT.getDisplayName();
-    private static final String WEEKEND_PRINT_FORMAT = WEEKEND_DISCOUNT.getDisplayName();
+    private static final String CHRISTMAS_DISCOUNT_MESSAGE = CHRISTMAS_DDAY.getDisplayName() + ": ";
+    private static final String SPECIAL_PRINT_FORMAT = SPECIAL_DISCOUNT.getDisplayName() + ": ";
+    private static final String WEEKDAY_PRINT_FORMAT = WEEKDAY_DISCOUNT.getDisplayName() + ": ";
+    private static final String WEEKEND_PRINT_FORMAT = WEEKEND_DISCOUNT.getDisplayName() + ": ";
 
 
 

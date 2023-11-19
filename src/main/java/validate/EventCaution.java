@@ -28,11 +28,6 @@ public abstract class EventCaution {
         }
         return false;
     }
-    public static void checkMenuCounts(List<OrderInfo> orderInfoList) {
-        if (orderInfoList.size() > OVER_ORDER_COUNT) {
-            throw  new IllegalArgumentException(IF_ORDER_COUNT_OVER_MAX);
-        }
-    }
 
     private static boolean isAllBeverages(List<String> menuNames) {
         boolean allBeverages = true;

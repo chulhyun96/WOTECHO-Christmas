@@ -7,6 +7,7 @@ import gift.BadgeGiftEvent;
 import gift.ChampagneGiftEvent;
 import java.time.LocalDate;
 import java.util.List;
+import menu.MenuItem;
 import order.OrderInfo;
 
 public abstract class OutputView {
@@ -26,8 +27,8 @@ public abstract class OutputView {
     }
 
     // 1 햬텍 미리보기
-    public static void printWelcomeMessage(LocalDate parseInputDate) {
-        printMessage("12월 " + parseInputDate + "일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
+    public static void printWelcomeMessage(int day) {
+        printMessage("12월 " + day + "일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
         System.out.println();
     }
     // 2주문 메뉴 출력
@@ -86,6 +87,10 @@ public abstract class OutputView {
         // 31,246원
         System.out.println("<총혜택 금액>");
         int allDiscountResult = BadgeGiftEvent.getDiscountResult(orderInfoList, localDate);
+
+        if (ChampagneGiftEvent.replyIfGetChampagneGift(orderInfoList)) {
+            allDiscountResult += MenuItem.CHAMPAGNE.getPrice();
+        }
         String allEventAcceptResult = PriceFormatter.formatPriceMinus(allDiscountResult);
         printMessage(allEventAcceptResult);
         System.out.println();
