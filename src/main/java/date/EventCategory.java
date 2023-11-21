@@ -7,7 +7,7 @@ public enum EventCategory {
     SPECIAL("특별 할인"),
     GIFT("증정 이벤트");
 
-    private String eventName;
+    private final String eventName;
 
     EventCategory(String eventName) {
         this.eventName = eventName;

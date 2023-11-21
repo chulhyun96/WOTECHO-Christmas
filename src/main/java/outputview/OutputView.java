@@ -17,7 +17,7 @@ public abstract class OutputView {
         System.out.println(message);
     }
     private static void printMenuInfo(List<OrderInfo> orderedList) {
-        System.out.println("<주문 메뉴>");
+        printMessage("<주문 메뉴>");
 
         orderedList.stream()
                 .forEach(orderInfo -> {
@@ -25,7 +25,6 @@ public abstract class OutputView {
                 });
 
     }
-
     // 1 햬텍 미리보기
     public static void printWelcomeMessage(int day) {
         printMessage("12월 " + day + "일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
@@ -39,6 +38,7 @@ public abstract class OutputView {
     // 3 할인 전 주문 총 금액
     public static void beforeDiscountPrice(List<OrderInfo> userOrderInfo) {
         System.out.println("<할인 전 총주문 금액>");
+
         int allPrice = userOrderInfo.stream()
                 .mapToInt(OrderInfo::getAllPrice)
                 .sum();
@@ -50,7 +50,7 @@ public abstract class OutputView {
     }
     //4 증정 메뉴, 샴페인 할인 이벤트가 적용되기전 가격을 중심으로
     public static void giftChampagne(List<OrderInfo> orderInfoList) {
-        System.out.println("<증정 메뉴>");
+        printMessage("<증정 메뉴>");
         String giftResult = ChampagneGiftEvent.getChampagne(orderInfoList);
         printMessage(giftResult);
         System.out.println();
@@ -60,7 +60,7 @@ public abstract class OutputView {
     //5 혜택 내역
     public static void printBenefitDetails(List<OrderInfo> orderInfoList, LocalDate localDate) {
         int allDiscountDetails = BadgeGiftEvent.getDiscountResult(orderInfoList, localDate);
-        System.out.println("<혜택 내역>");
+        printMessage("<혜택 내역>");
 
         if (allDiscountDetails == NONE_DISCOUNT) {
             printMessage(NOTHING);
@@ -85,7 +85,7 @@ public abstract class OutputView {
     //6. 총 혜택 금액
     public static void printAllBenefitAcceptPrice(List<OrderInfo> orderInfoList, LocalDate localDate){
         // 31,246원
-        System.out.println("<총혜택 금액>");
+        printMessage("<총혜택 금액>");
         int allDiscountResult = BadgeGiftEvent.getDiscountResult(orderInfoList, localDate);
 
         if (ChampagneGiftEvent.replyIfGetChampagneGift(orderInfoList)) {
@@ -97,12 +97,15 @@ public abstract class OutputView {
     }
     // 할인 후 예상 결제 금액
     public static void printAfterDiscountPrice(List<OrderInfo> userOrderInfo, LocalDate localDate) {
-        System.out.println("<할인 후 예상 결제 금액>");
+        printMessage("<할인 후 예상 결제 금액>");
+
         int allPrice = userOrderInfo.stream()
                 .mapToInt(OrderInfo::getAllPrice)
                 .sum();
+
         int allDiscountResult = BadgeGiftEvent.getDiscountResult(userOrderInfo, localDate);
         int afterDiscount = allPrice - allDiscountResult;
+
         String printResult = PriceFormatter.formatPricePlus(afterDiscount);
         printMessage(printResult);
         System.out.println();

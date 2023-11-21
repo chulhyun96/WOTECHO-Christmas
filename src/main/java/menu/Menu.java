@@ -1,9 +1,9 @@
 package menu;
 
 public class Menu {
-    private String menuName;
-    private int menuPrice;
-    private MenuCategory menuCategory;
+    private final String menuName;
+    private final int menuPrice;
+    private final MenuCategory menuCategory;
 
     private Menu(String menuName, int menuPrice, MenuCategory menuCategory) {
         this.menuName = menuName;

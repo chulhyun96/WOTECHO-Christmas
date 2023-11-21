@@ -8,7 +8,6 @@ public enum Event {
     WEEKEND_DISCOUNT(EventCategory.WEEKEND, EventDate.EVENT_START, EventDate.EVENT_END),
     SPECIAL_DISCOUNT(EventCategory.SPECIAL, EventDate.EVENT_START, EventDate.EVENT_END),
     GIFT_EVENT(EventCategory.GIFT, EventDate.EVENT_START, EventDate.EVENT_END);
-
     private final EventCategory name;
     private final EventDate startDate;
     private final EventDate endDate;

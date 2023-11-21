@@ -13,7 +13,6 @@ public abstract class WeekendDiscount {
     private static final int WEEKEND_DISCOUNT_PRICE = 2023;
 
     public static int discountWeekend(List<OrderInfo> orderInfoList, LocalDate userInputDate) {
-
         if (EventCaution.checkIfEventAccept(orderInfoList)) {
             if (weekendDate(userInputDate)) {
                 int mainCount = getMainCount(orderInfoList);

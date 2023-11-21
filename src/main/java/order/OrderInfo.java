@@ -4,8 +4,8 @@ import menu.Menu;
 import menu.MenuCategory;
 
 public class OrderInfo {
-    private Menu menu;
-    private int quantity;
+    private final Menu menu;
+    private final int quantity;
 
     public OrderInfo(Menu menu, int quantity) {
         this.menu = menu;
