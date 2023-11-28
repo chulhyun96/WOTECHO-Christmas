@@ -25,15 +25,10 @@ public abstract class ChampagneGiftEvent {
         }
         return NOTHING;
     }
-
     public static boolean replyIfGetChampagneGift(List<OrderInfo> oderInfoList) {
         int orderInfoAllPrice = oderInfoList.stream()
                 .mapToInt(OrderInfo::getAllPrice)
                 .sum();
-        if (orderInfoAllPrice >= GIFT_EVENT_ACCEPT_PRICE) {
-            return true;
-        }
-        return false;
+        return orderInfoAllPrice >= GIFT_EVENT_ACCEPT_PRICE;
     }
-
 }

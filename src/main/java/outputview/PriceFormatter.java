@@ -10,9 +10,6 @@ public abstract class PriceFormatter {
     }
     public static String formatPriceMinus(int price) {
         NumberFormat formatter = NumberFormat.getNumberInstance();
-        if (price > 0) {
-            price = -price;
-        }
-        return formatter.format(price) + PRICE_UNIT;
+        return formatter.format(-Math.abs(price)) + PRICE_UNIT;
     }
 }

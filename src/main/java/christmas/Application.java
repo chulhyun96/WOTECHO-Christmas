@@ -33,7 +33,7 @@ public class Application {
 
         OutputView.printAfterDiscountPrice(orderInfoList, reservedDate);
 
-        OutputView.printEventBadge(orderInfoList, reservedDate);
+        OutputView.printEventBadge(orderInfoList);
 
     }
 }

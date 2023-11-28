@@ -20,7 +20,7 @@ public abstract class EventCaution {
         int allPrice = orderInfoList.stream()
                 .mapToInt(OrderInfo::getAllPrice)
                 .sum();
-        return allPrice < UNACCEPTABLE_PRICE;
+        return allPrice > UNACCEPTABLE_PRICE;
     }
 
     private static boolean isAllBeverages(List<String> menuNames) {

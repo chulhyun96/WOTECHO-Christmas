@@ -1,51 +1,24 @@
 package gift;
 
-import static gift.Badge.*;
+import static constants.SystemConstants.NOTHING;
+import static constants.SystemConstants.UNACCEPTABLE_PRICE;
 
-import discount.ChristmasDisCount;
-import discount.SpecialDiscount;
-import discount.WeekdayDiscount;
-import discount.WeekendDiscount;
-import java.time.LocalDate;
 import java.util.List;
 import order.OrderInfo;
 
 public abstract class BadgeGiftEvent {
-
-    public static String checkGiftBadge(List<OrderInfo>orderInfoList, LocalDate localDate) {
-
-        int eventDiscountAcceptResult = getEventAllPrice(orderInfoList, localDate);
-        
-        if ((STAR.getBadgeValue() <= eventDiscountAcceptResult) && (TREE.getBadgeValue() > eventDiscountAcceptResult)) {
-            return STAR.getBadgeName();
+    public static String checkGiftBadge (List<OrderInfo> orderInfoList) {
+        if (checkIfGetBadge(orderInfoList)) {
+            return Badge.getBadge(getOrderAllPrice(orderInfoList));
         }
-        if ((TREE.getBadgeValue() <= eventDiscountAcceptResult) && (SANTA.getBadgeValue() > eventDiscountAcceptResult)) {
-            return TREE.getBadgeName();
-        }
-        if (SANTA.getBadgeValue() <= eventDiscountAcceptResult) {
-            return SANTA.getBadgeName();
-        }
-        return null;
+        return NOTHING;
     }
-
-    private static int getEventAllPrice(List<OrderInfo> orderInfoList, LocalDate localDate) {
-        int discountAcceptPrice = getDiscountResult(orderInfoList, localDate);
-        int orderInfoAllPrice = getAllPrice(orderInfoList);
-        return orderInfoAllPrice - discountAcceptPrice;
+    private static boolean checkIfGetBadge (List<OrderInfo> orderInfoList) {
+        return getOrderAllPrice(orderInfoList) >= UNACCEPTABLE_PRICE;
     }
-
-    public static int getDiscountResult(List<OrderInfo> orderInfoList, LocalDate localDate) {
-        int christmasDiscountResult = ChristmasDisCount.christmasDiscount(orderInfoList, localDate);
-        int specialDiscountResult = SpecialDiscount.discountSpecial(orderInfoList, localDate);
-        int weekdayDiscountResult = WeekdayDiscount.discountWeekDay(orderInfoList, localDate);
-        int weekendDiscountResult = WeekendDiscount.discountWeekend(orderInfoList, localDate);
-
-        return christmasDiscountResult + specialDiscountResult + weekdayDiscountResult + weekendDiscountResult;
-    }
-
-    private static int getAllPrice(List<OrderInfo> orderInfoList) {
+    private static int getOrderAllPrice(List<OrderInfo> orderInfoList) {
         return orderInfoList.stream()
-                .mapToInt(OrderInfo::getAllPrice)
+                .mapToInt(OrderInfo :: getAllPrice)
                 .sum();
     }
 }

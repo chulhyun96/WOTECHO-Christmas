@@ -15,24 +15,13 @@ public abstract class OrderProcessor {
         MenuList.createAllMenu();
         List<OrderInfo> orderInfoList = new ArrayList<>();
 
-        boolean isSuccess = false;
-        while (!isSuccess) {
+        boolean isProcessingComplete = false;
+
+        while (!isProcessingComplete) {
             try {
-                List<String> inputMenuNames = new ArrayList<>();
-                for (String inputMenu : inputMenuList) {
-                    String[] parts = inputMenu.split("-");
-
-                    MenuValidator.validateOrderFormat(parts);
-                    Menu menu = ValidateInputValue.validateAllAboutMenu(parts);
-
-                    int parsedIntQuantity = ValidateInputValue.validateAllAboutQuantity(parts);
-                    orderInfoList.add(new OrderInfo(menu, parsedIntQuantity));
-
-                    inputMenuNames.add(parts[0].trim());
-                }
+                List<String> inputMenuNames = processOrderInput(inputMenuList, orderInfoList);
                 EventCaution.checkIfAllBeverages(inputMenuNames);
-                isSuccess = true;
-
+                isProcessingComplete = true;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 clearListIfException(orderInfoList);
@@ -41,6 +30,24 @@ public abstract class OrderProcessor {
         }
         return orderInfoList;
     }
+
+    private static List<String> processOrderInput(List<String> inputMenuList, List<OrderInfo> orderInfoList) {
+        List<String> inputMenuNames = new ArrayList<>();
+
+        for (String inputMenu : inputMenuList) {
+            String[] parts = inputMenu.split("-");
+
+            MenuValidator.validateOrderFormat(parts);
+            Menu menu = ValidateInputValue.validateAllAboutMenu(parts);
+
+            int parsedIntQuantity = ValidateInputValue.validateAllAboutQuantity(parts);
+            orderInfoList.add(new OrderInfo(menu, parsedIntQuantity));
+
+            inputMenuNames.add(parts[0].trim());
+        }
+        return inputMenuNames;
+    }
+
     private static void clearListIfException(List<OrderInfo> orderInfoList) {
         orderInfoList.clear();
         MenuValidator.clearMenuNamesForDuplication();

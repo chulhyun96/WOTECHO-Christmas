@@ -9,24 +9,34 @@ import java.util.List;
 import order.OrderInfo;
 import validate.EventCaution;
 
-public abstract class ChristmasDisCount {
+public class ChristmasDisCount implements DiscountStrategy{
+    private static ChristmasDisCount instance;
     private static final int DISCOUNT_DEFAULT_PRICE = 1000;
     private static final int DISCOUNT_IMPEDING_ON_DATE = 100;
 
-    //discount 클래스들을 공통적인 부분을 가지고와서 인터페이스로 만들 수 있는지 물어보기
-
-    public static int christmasDiscount(List<OrderInfo> orderInfoList, LocalDate inputDate) {
-        if (EventCaution.checkIfEventAccept(orderInfoList)) {
-            if (!inputDate.isBefore(CHRISTMAS_DDAY.getStartDate()) &&
-                    !inputDate.isAfter(CHRISTMAS_DDAY.getEndDate())) {
-
-                return getDiscount(inputDate);
-            }
+    private ChristmasDisCount() {
+    }
+    public static ChristmasDisCount getInstance() {
+        if (instance == null) {
+            instance = new ChristmasDisCount();
+        }
+        return instance;
+    }
+    @Override
+    public int applyDiscountStrategy(List<OrderInfo> orderInfoList, LocalDate inputDate) {
+        if (EventCaution.checkIfEventAccept(orderInfoList) && isDiscountAccept(inputDate)) {
+            return getDiscount(inputDate);
         }
         return NONE_DISCOUNT;
     }
 
-    private static int getDiscount(LocalDate inputDate) {
+    @Override
+    public boolean isDiscountAccept(LocalDate localDate) {
+        return !localDate.isBefore(CHRISTMAS_DDAY.getStartDate()) &&
+                !localDate.isAfter(CHRISTMAS_DDAY.getEndDate());
+    }
+
+    private int getDiscount(LocalDate inputDate) {
         long date = ChronoUnit.DAYS.between(CHRISTMAS_DDAY.getStartDate(), inputDate);
         return DISCOUNT_DEFAULT_PRICE + ((int) date * DISCOUNT_IMPEDING_ON_DATE);
     }

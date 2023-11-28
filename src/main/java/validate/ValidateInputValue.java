@@ -11,7 +11,7 @@ public class ValidateInputValue {
 
     public static Menu validateAllAboutMenu(String[] parts) {
         String menuName = parts[0].trim();
-        Menu menu = MenuValidator.validateMenuExist(menuName);
+        Menu menu = MenuValidator.findValidMenu(menuName);
         MenuValidator.validateMenuDuplication(menu.getMenuName());
         return menu;
     }

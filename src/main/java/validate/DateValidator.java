@@ -9,6 +9,7 @@ public abstract class DateValidator {
         if (INVALID_MIN_DATE > date || date > INVALID_MAX_DATE ) {
             throw new IllegalArgumentException(ERROR_INVALID_DATE_MESSAGE);
         }
+        System.out.println();
     }
 
     public static int validateDateInput(String dateInput) {

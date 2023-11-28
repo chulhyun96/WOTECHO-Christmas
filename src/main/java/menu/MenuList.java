@@ -12,7 +12,6 @@ public abstract class MenuList {
                 .map(item -> Menu.createMenu(item.getMenuName(), item.getPrice(), item.getMenuCategory()))
                 .toList();
     }
-
     public static List<Menu> getMenuList() {
         return new ArrayList<>(menuList);
     }

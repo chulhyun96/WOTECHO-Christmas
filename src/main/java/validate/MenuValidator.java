@@ -19,14 +19,13 @@ public abstract class MenuValidator {
         if (quantity < MIN_QUANTITY || quantity > MAX_QUANTITY) {
             throw new IllegalArgumentException(ERROR_INPUT_QUANTITY_MESSAGE);
         }
-    }   public static int validateConvertToInt(String input) {
-        int quantity;
+    }
+    public static int validateConvertToInt(String input) {
         try {
-            quantity = Integer.parseInt(input);
+            return Integer.parseInt(input);
         } catch (NumberFormatException e) {
             throw new NumberFormatException(ERROR_CONVERT_TO_INT_MESSAGE);
         }
-        return quantity;
     }
 
     public static void validateOrderFormat(String[] parts) {
@@ -34,14 +33,14 @@ public abstract class MenuValidator {
             throw new IllegalArgumentException(ERROR_MENU_MESSAGE);
         }
     }
-    public static Menu validateMenuExist(String menuName) {
-        // 파라미터로 들어온 메뉴이름을 가진 메뉴가 존재하는지 검사후 해당 Menu 객체를 반환
+    public static Menu findValidMenu(String menuName) {
         List<Menu> menuListForValidation = MenuList.getMenuList();
         return menuListForValidation.stream()
                 .filter(menu -> menu.isContainName(menuName))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ERROR_MENU_MESSAGE));
     }
+
     public static void validateMenuDuplication(String menuName) {
         if (menuNames.contains(menuName)) {
             // 중복된 메뉴 이름을 발견한 경우 에러를 발생시킵니다.

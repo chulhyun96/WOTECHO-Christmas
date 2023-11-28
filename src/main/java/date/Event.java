@@ -16,7 +16,6 @@ public enum Event {
         this.startDate = startDate;
         this.endDate = endDate;
     }
-
     public String getDisplayName() {
         return this.name.getEventName();
     }
