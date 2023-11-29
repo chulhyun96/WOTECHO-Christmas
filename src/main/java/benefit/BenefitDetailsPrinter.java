@@ -23,37 +23,37 @@ public abstract class BenefitDetailsPrinter {
 
 
     public static void printWeekdayBenefit(List<OrderInfo> orderInfoList, LocalDate localDate) {
-        boolean weekdayBenefitDetailsResult = BenefitDetailsJudge.responseWeekdayBenefit(orderInfoList, localDate);
         int weekdayDiscount = WeekdayDiscount.getInstance().applyDiscountStrategy(orderInfoList, localDate);
+        boolean isBenefitAccept = BenefitDetailsJudge.responseWeekdayBenefit(weekdayDiscount);
 
-        if (weekdayBenefitDetailsResult) {
+        if (isBenefitAccept) {
             printMessage(WEEKDAY_PRINT_FORMAT + PriceFormatter.formatPriceMinus(weekdayDiscount));
         }
     }
 
     public static void printSpecialBenefit(List<OrderInfo> orderInfoList, LocalDate localDate) {
-        boolean specialBenefitDetailsResult = BenefitDetailsJudge.responseSpecialBenefit(orderInfoList, localDate);
         int specialDiscount = SpecialDiscount.getInstance().applyDiscountStrategy(orderInfoList, localDate);
+        boolean isBenefitAccept = BenefitDetailsJudge.responseSpecialBenefit(specialDiscount);
 
-        if (specialBenefitDetailsResult) {
+        if (isBenefitAccept) {
             printMessage(SPECIAL_PRINT_FORMAT + PriceFormatter.formatPriceMinus(specialDiscount));
         }
     }
 
     public static void printChristmasBenefit(List<OrderInfo> orderInfoList, LocalDate localDate) {
-        boolean christmasBenefitDetailsResult = BenefitDetailsJudge.responseChristmasBenefit(orderInfoList, localDate);
         int christmasDiscount = ChristmasDisCount.getInstance().applyDiscountStrategy(orderInfoList, localDate);
+        boolean isBenefitAccept = BenefitDetailsJudge.responseChristmasBenefit(christmasDiscount);
 
-        if (christmasBenefitDetailsResult) {
+        if (isBenefitAccept) {
             printMessage(CHRISTMAS_DISCOUNT_MESSAGE + PriceFormatter.formatPriceMinus(christmasDiscount));
         }
     }
 
     public static void printWeekendDiscount(List<OrderInfo> orderInfoList, LocalDate localDate) {
-        boolean weekendBenefitDetailsResult = BenefitDetailsJudge.responseWeekendBenefit(orderInfoList, localDate);
         int weekendDiscount = WeekendDiscount.getInstance().applyDiscountStrategy(orderInfoList, localDate);
+        boolean isBenefitAccept = BenefitDetailsJudge.responseWeekendBenefit(weekendDiscount);
 
-        if (weekendBenefitDetailsResult) {
+        if (isBenefitAccept) {
             printMessage(WEEKEND_PRINT_FORMAT + PriceFormatter.formatPriceMinus(weekendDiscount));
         }
     }
