@@ -5,10 +5,12 @@ import java.util.List;
 import order.OrderInfo;
 
 public class AllDiscountPrice {
+    private boolean isStrategyUpdate = false;
     private int christmasDiscountAmount;
     private int specialDiscountAmount;
     private int weekdayDiscountAmount;
     private int weekendDiscountAmount;
+
     private void getDiscountStrategy(List<OrderInfo> orderInfoList, LocalDate localDate) {
         ChristmasDisCount christmasDisCount = ChristmasDisCount.getInstance();
         this.christmasDiscountAmount = christmasDisCount.applyDiscountStrategy(orderInfoList, localDate);
@@ -23,7 +25,10 @@ public class AllDiscountPrice {
         this.weekendDiscountAmount = weekendDiscount.applyDiscountStrategy(orderInfoList, localDate);
     }
     public int getAllDiscountPrice(List<OrderInfo> orderInfoList, LocalDate localDate) {
-        getDiscountStrategy(orderInfoList, localDate);
+        if (!isStrategyUpdate) {
+            getDiscountStrategy(orderInfoList, localDate);
+            this.isStrategyUpdate = true;
+        }
         return christmasDiscountAmount + specialDiscountAmount + weekdayDiscountAmount + weekendDiscountAmount;
     }
 }
