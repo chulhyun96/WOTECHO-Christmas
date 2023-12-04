@@ -6,7 +6,7 @@ public abstract class DateValidator {
     private static final String ERROR_INVALID_DATE_MESSAGE = "[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.";
 
     public static void validateDateRange(int date) {
-        if (INVALID_MIN_DATE > date || date > INVALID_MAX_DATE ) {
+        if (!(INVALID_MIN_DATE <= date && date <= INVALID_MAX_DATE)) {
             throw new IllegalArgumentException(ERROR_INVALID_DATE_MESSAGE);
         }
         System.out.println();
