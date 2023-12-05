@@ -16,6 +16,8 @@ import order.OrderInfo;
 import outputview.PriceFormatter;
 
 public abstract class BenefitDetailsPrinter {
+    // getInstance 메서드를 호출해야함. DiscountCalculator에서
+
     private static final String CHRISTMAS_DISCOUNT_MESSAGE = CHRISTMAS_DDAY.getDisplayName() + ": ";
     private static final String SPECIAL_PRINT_FORMAT = SPECIAL_DISCOUNT.getDisplayName() + ": ";
     private static final String WEEKDAY_PRINT_FORMAT = WEEKDAY_DISCOUNT.getDisplayName() + ": ";
@@ -24,7 +26,7 @@ public abstract class BenefitDetailsPrinter {
 
     public static void printWeekdayBenefit(List<OrderInfo> orderInfoList, LocalDate localDate) {
         int weekdayDiscount = WeekdayDiscount.getInstance().applyDiscountStrategy(orderInfoList, localDate);
-        boolean isBenefitAccept = BenefitDetailsJudge.responseWeekdayBenefit(weekdayDiscount);
+        boolean isBenefitAccept = BenefitDetailsJudge.isEligibleForBenefit(weekdayDiscount);
 
         if (isBenefitAccept) {
             printMessage(WEEKDAY_PRINT_FORMAT + PriceFormatter.formatPriceMinus(weekdayDiscount));
@@ -33,7 +35,7 @@ public abstract class BenefitDetailsPrinter {
 
     public static void printSpecialBenefit(List<OrderInfo> orderInfoList, LocalDate localDate) {
         int specialDiscount = SpecialDiscount.getInstance().applyDiscountStrategy(orderInfoList, localDate);
-        boolean isBenefitAccept = BenefitDetailsJudge.responseSpecialBenefit(specialDiscount);
+        boolean isBenefitAccept = BenefitDetailsJudge.isEligibleForBenefit(specialDiscount);
 
         if (isBenefitAccept) {
             printMessage(SPECIAL_PRINT_FORMAT + PriceFormatter.formatPriceMinus(specialDiscount));
@@ -42,7 +44,7 @@ public abstract class BenefitDetailsPrinter {
 
     public static void printChristmasBenefit(List<OrderInfo> orderInfoList, LocalDate localDate) {
         int christmasDiscount = ChristmasDisCount.getInstance().applyDiscountStrategy(orderInfoList, localDate);
-        boolean isBenefitAccept = BenefitDetailsJudge.responseChristmasBenefit(christmasDiscount);
+        boolean isBenefitAccept = BenefitDetailsJudge.isEligibleForBenefit(christmasDiscount);
 
         if (isBenefitAccept) {
             printMessage(CHRISTMAS_DISCOUNT_MESSAGE + PriceFormatter.formatPriceMinus(christmasDiscount));
@@ -51,7 +53,7 @@ public abstract class BenefitDetailsPrinter {
 
     public static void printWeekendDiscount(List<OrderInfo> orderInfoList, LocalDate localDate) {
         int weekendDiscount = WeekendDiscount.getInstance().applyDiscountStrategy(orderInfoList, localDate);
-        boolean isBenefitAccept = BenefitDetailsJudge.responseWeekendBenefit(weekendDiscount);
+        boolean isBenefitAccept = BenefitDetailsJudge.isEligibleForBenefit(weekendDiscount);
 
         if (isBenefitAccept) {
             printMessage(WEEKEND_PRINT_FORMAT + PriceFormatter.formatPriceMinus(weekendDiscount));
