@@ -5,6 +5,4 @@ public class SystemConstants {
     public static final String NOTHING = "없음";
     public static final int UNACCEPTABLE_PRICE = 10000;
 
-
-
 }

@@ -22,6 +22,9 @@ public class WeekdayDiscount implements DiscountStrategy{
         }
         return instance;
     }
+
+
+
     @Override
     public int applyDiscountStrategy(List<OrderInfo> orderInfoList, LocalDate userInputDate) {
         if (EventCaution.checkIfEventAccept(orderInfoList) && isDiscountAccept(userInputDate)) {

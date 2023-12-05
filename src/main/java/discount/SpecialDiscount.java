@@ -22,6 +22,7 @@ public class SpecialDiscount implements DiscountStrategy{
         return instance;
     }
 
+
     @Override
     public int applyDiscountStrategy(List<OrderInfo> orderInfoList, LocalDate localDate) {
         if (EventCaution.checkIfEventAccept(orderInfoList) && isDiscountAccept(localDate)) {
