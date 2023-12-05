@@ -4,25 +4,20 @@ import static constants.SystemConstants.NONE_DISCOUNT;
 import static constants.SystemConstants.NOTHING;
 
 import benefit.BenefitDetailsPrinter;
-import discount.AllDiscountPrice;
+import discount.DiscountCalculator;
 import gift.BadgeGiftEvent;
 import gift.ChampagneGiftEvent;
 import java.time.LocalDate;
 import java.util.List;
 import menu.MenuItem;
 import order.OrderInfo;
+import order.OrderInfoList;
 
 public abstract class OutputView {
-    private static AllDiscountPrice allDiscountPrice = new AllDiscountPrice();
     public static void printMessage(String message) {
         System.out.println(message);
     }
-    private static void benefitList(List<OrderInfo> orderInfoList, LocalDate localDate) {
-        BenefitDetailsPrinter.printChristmasBenefit(orderInfoList, localDate);
-        BenefitDetailsPrinter.printWeekdayBenefit(orderInfoList, localDate);
-        BenefitDetailsPrinter.printSpecialBenefit(orderInfoList, localDate);
-        BenefitDetailsPrinter.printWeekendDiscount(orderInfoList, localDate);
-    }
+
     private static void printMenuInfo(List<OrderInfo> orderedList) {
         printMessage("<주문 메뉴>");
         orderedList.stream()
@@ -41,53 +36,59 @@ public abstract class OutputView {
         System.out.println();
     }
     // 3 할인 전 주문 총 금액
-    public static void beforeDiscountPrice(List<OrderInfo> userOrderInfo) {
+    public static void beforeDiscountPrice() {
         System.out.println("<할인 전 총주문 금액>");
 
-        int allPrice = userOrderInfo.stream()
-                .mapToInt(OrderInfo::getAllPrice)
-                .sum();
-
-        String print = PriceFormatter.formatPricePlus(allPrice);
+        int allOrderPrice = OrderInfoList.getAllOrderPrice();
+        String print = PriceFormatter.formatPricePlus(allOrderPrice);
         printMessage(print);
         System.out.println();
 
     }
     //4 증정 메뉴, 샴페인 할인 이벤트가 적용되기전 가격을 중심으로
-    public static void giftChampagne(List<OrderInfo> orderInfoList) {
+    public static void giftChampagne() {
         printMessage("<증정 메뉴>");
-        String giftResult = ChampagneGiftEvent.getChampagne(orderInfoList);
+        String giftResult = ChampagneGiftEvent.getChampagne();
         printMessage(giftResult);
         System.out.println();
     }
 
     //5 혜택 내역 이 때 할인 정책 객체 들이 생성이 되어야해
     public static void printBenefitDetails(List<OrderInfo> orderInfoList, LocalDate localDate) {
-        int allDiscountDetails = allDiscountPrice.getAllDiscountPrice(orderInfoList, localDate);
+        int allDiscountDetails = DiscountCalculator.getAllDiscountPrice(orderInfoList, localDate);
         printMessage("<혜택 내역>");
 
         if (allDiscountDetails == NONE_DISCOUNT) {
             printMessage(NOTHING);
+            resultOfChampagne();
+            return;
         }
-        if (allDiscountDetails != NONE_DISCOUNT) {
-            benefitList(orderInfoList, localDate);
-        }
+        benefitList(orderInfoList, localDate);
+        resultOfChampagne();
 
-        String champagnePrice = ChampagneGiftEvent.getChampagnePrice(orderInfoList);
+    }
+    private static void resultOfChampagne() {
+        String champagnePrice = ChampagneGiftEvent.getChampagnePrice();
 
         if (!champagnePrice.equals(NOTHING)) {
             printMessage(champagnePrice);
         }
         System.out.println();
     }
+    private static void benefitList(List<OrderInfo> orderInfoList, LocalDate localDate) {
+        BenefitDetailsPrinter.printChristmasBenefit(orderInfoList, localDate);
+        BenefitDetailsPrinter.printWeekdayBenefit(orderInfoList, localDate);
+        BenefitDetailsPrinter.printSpecialBenefit(orderInfoList, localDate);
+        BenefitDetailsPrinter.printWeekendDiscount(orderInfoList, localDate);
+    }
 
     //6. 총 혜택 금액
     public static void printAllBenefitAcceptPrice(List<OrderInfo> orderInfoList, LocalDate localDate){
         // 31,246원
         printMessage("<총혜택 금액>");
-        int allDiscountResult = allDiscountPrice.getAllDiscountPrice(orderInfoList, localDate);
+        int allDiscountResult = DiscountCalculator.getAllDiscountPrice(orderInfoList, localDate);
 
-        if (ChampagneGiftEvent.replyIfGetChampagneGift(orderInfoList)) {
+        if (ChampagneGiftEvent.replyIfGetChampagneGift()) {
             allDiscountResult += MenuItem.CHAMPAGNE.getPrice();
         }
         String allEventAcceptResult = PriceFormatter.formatPriceMinus(allDiscountResult);
@@ -99,21 +100,19 @@ public abstract class OutputView {
     public static void printAfterDiscountPrice(List<OrderInfo> userOrderInfo, LocalDate localDate) {
         printMessage("<할인 후 예상 결제 금액>");
 
-        int allPrice = userOrderInfo.stream()
-                .mapToInt(OrderInfo::getAllPrice)
-                .sum();
+        int allOrderPrice = OrderInfoList.getAllOrderPrice();
 
-        int allDiscountResult = allDiscountPrice.getAllDiscountPrice(userOrderInfo, localDate);
-        int afterDiscount = allPrice - allDiscountResult;
+        int allDiscountResult = DiscountCalculator.getAllDiscountPrice(userOrderInfo, localDate);
+        int afterDiscount = allOrderPrice - allDiscountResult;
 
         String printResult = PriceFormatter.formatPricePlus(afterDiscount);
         printMessage(printResult);
         System.out.println();
     }
     // 12월 이벤트 배지
-    public static void printEventBadge(List<OrderInfo> orderInfoList) {
+    public static void printEventBadge() {
         printMessage("<12월 이벤트 배지>");
-        String badge = BadgeGiftEvent.checkGiftBadge(orderInfoList);
+        String badge = BadgeGiftEvent.checkGiftBadge();
         printMessage(badge);
     }
 }
