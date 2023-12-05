@@ -1,8 +1,7 @@
 package gift;
 
-import java.util.List;
 import menu.MenuItem;
-import order.OrderInfo;
+import order.OrderInfoList;
 import outputview.PriceFormatter;
 
 public abstract class ChampagneGiftEvent {
@@ -12,23 +11,22 @@ public abstract class ChampagneGiftEvent {
     private static final String ONE_GIFT_CHAMPAGNE = " 1개";
 
     // 할인 이벤트가 적용 되기전
-    public static String getChampagne(List<OrderInfo> orderInfoList) {
-        if (replyIfGetChampagneGift(orderInfoList)) {
+    public static String getChampagne() {
+        if (replyIfGetChampagneGift()) {
             return MenuItem.CHAMPAGNE.getMenuName() + ONE_GIFT_CHAMPAGNE;
         }
         return NOTHING;
     }
-    public static String getChampagnePrice(List<OrderInfo> orderInfoList) {
-        if (replyIfGetChampagneGift(orderInfoList)) {
+    public static String getChampagnePrice() {
+        if (replyIfGetChampagneGift()) {
             int champagnePrice = MenuItem.CHAMPAGNE.getPrice();
             return GIFT_EVENT + PriceFormatter.formatPriceMinus(champagnePrice);
         }
         return NOTHING;
     }
-    public static boolean replyIfGetChampagneGift(List<OrderInfo> oderInfoList) {
-        int orderInfoAllPrice = oderInfoList.stream()
-                .mapToInt(OrderInfo::getAllPrice)
-                .sum();
-        return orderInfoAllPrice >= GIFT_EVENT_ACCEPT_PRICE;
+    public static boolean replyIfGetChampagneGift() {
+        return OrderInfoList.getAllOrderPrice() >= GIFT_EVENT_ACCEPT_PRICE;
+
+
     }
 }
