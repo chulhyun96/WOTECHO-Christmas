@@ -12,8 +12,8 @@ import validate.ValidateInputValue;
 
 public abstract class OrderProcessor {
     public static List<OrderInfo> orderInfoList(List<String> inputMenuList) {
+        List<OrderInfo> orderInfoList = OrderInfoList.getOrderInfoList();
         MenuList.createAllMenu();
-        List<OrderInfo> orderInfoList = new ArrayList<>();
 
         boolean isProcessingComplete = false;
 
@@ -38,14 +38,18 @@ public abstract class OrderProcessor {
             String[] parts = inputMenu.split("-");
 
             MenuValidator.validateOrderFormat(parts);
-            Menu menu = ValidateInputValue.validateAllAboutMenu(parts);
-
-            int parsedIntQuantity = ValidateInputValue.validateAllAboutQuantity(parts);
-            orderInfoList.add(new OrderInfo(menu, parsedIntQuantity));
+            addOrderInfoToList(orderInfoList, parts);
 
             inputMenuNames.add(parts[0].trim());
         }
         return inputMenuNames;
+    }
+
+    private static void addOrderInfoToList(List<OrderInfo> orderInfoList, String[] parts) {
+        Menu menu = ValidateInputValue.validateAllAboutMenu(parts);
+
+        int parsedIntQuantity = ValidateInputValue.validateAllAboutQuantity(parts);
+        orderInfoList.add(new OrderInfo(menu, parsedIntQuantity));
     }
 
     private static void clearListIfException(List<OrderInfo> orderInfoList) {
