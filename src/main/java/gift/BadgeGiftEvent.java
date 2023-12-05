@@ -3,22 +3,16 @@ package gift;
 import static constants.SystemConstants.NOTHING;
 import static constants.SystemConstants.UNACCEPTABLE_PRICE;
 
-import java.util.List;
-import order.OrderInfo;
+import order.OrderInfoList;
 
 public abstract class BadgeGiftEvent {
-    public static String checkGiftBadge (List<OrderInfo> orderInfoList) {
-        if (checkIfGetBadge(orderInfoList)) {
-            return Badge.getBadge(getOrderAllPrice(orderInfoList));
+    public static String checkGiftBadge () {
+        if (checkIfGetBadge()) {
+            return Badge.getBadge(OrderInfoList.getAllOrderPrice());
         }
         return NOTHING;
     }
-    private static boolean checkIfGetBadge (List<OrderInfo> orderInfoList) {
-        return getOrderAllPrice(orderInfoList) >= UNACCEPTABLE_PRICE;
-    }
-    private static int getOrderAllPrice(List<OrderInfo> orderInfoList) {
-        return orderInfoList.stream()
-                .mapToInt(OrderInfo :: getAllPrice)
-                .sum();
+    private static boolean checkIfGetBadge () {
+        return OrderInfoList.getAllOrderPrice() >= UNACCEPTABLE_PRICE;
     }
 }
